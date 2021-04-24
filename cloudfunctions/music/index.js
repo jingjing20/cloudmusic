@@ -4,7 +4,7 @@ const cloud = require('wx-server-sdk')
 const TcbRouter = require('tcb-router')
 
 const rp = require('request-promise')
-const BASE_URL = 'http://musicapi.xiecheng.live'
+const BASE_URL = 'https://jingmusicapi.vercel.app/'
 cloud.init()
 
 const db = cloud.database()
@@ -13,7 +13,7 @@ exports.main = async (event, context) => {
   const app = new TcbRouter({event})
 
   app.router('playlist', async(ctx, next) => {
-    ctx.body = await cloud.database().collection('playlist')
+    ctx.body = await db.collection('playlist')
       .skip(event.start)
       .limit(event.count)
       .orderBy('createTime', 'desc')
@@ -25,8 +25,17 @@ exports.main = async (event, context) => {
 
   app.router('musiclist', async(ctx, next) => {
     ctx.body = await rp(BASE_URL + '/playlist/detail?id=' + parseInt(event.playlistId)).then(res => {
+      console.log(res);
       return JSON.parse(res)
     })
+  })
+
+  app.router('test', async(ctx, next) => {
+    console.log('jingjing', '+++');
+    // ctx.body = await rp(BASE_URL + '/personalized').then(res => {
+    //   console.log(res);
+    //   return JSON.parse(res)
+    // })
   })
 
   app.router('musicUrl', async(ctx, next) => {

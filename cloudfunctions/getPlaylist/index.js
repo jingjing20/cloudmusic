@@ -7,7 +7,7 @@ const db = cloud.database()
 
 const rp = require('request-promise')
 
-const Url = 'http://musicapi.xiecheng.live/personalized'
+const Url = 'https://jingmusicapi.vercel.app//personalized'
 
 const playlistCollection = db.collection('playlist')  //定义数据集合对象
 
@@ -44,7 +44,7 @@ exports.main = async(event, context) => {
 
 
 
-  console.log(playlist);
+  console.log(playlist, '++++++++++++++++');
   // 去重部分
   const newData = []
   for (let i = 0, len1 = playlist.length; i < len1; i++){
